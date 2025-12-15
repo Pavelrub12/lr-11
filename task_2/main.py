@@ -1,7 +1,9 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 
-
+with open("data.json", "r", encoding='utf-8') as f:
+    data = json.load(f)
 print("Начинаем парсинг Quotes to Scrape")
 print("-" * 50)
 url = "https://quotes.toscrape.com/"
@@ -32,6 +34,12 @@ for i, repo in enumerate(repos[:5], 1):
         repo_author = "Неизвестно"
 
     print(f"{i}. Quote: {repo_text}; Author: {repo_author};")
-
+    newRecord = {
+        'Quote': repo_text,
+        'Author': repo_author,
+    }
+    data.append(newRecord)
+    with open('data.json', 'w', encoding = 'utf-8') as file:
+        json.dump(data, file, ensure_ascii = False)
 print('-' * 50)
 print("Парсинг завершён!")
